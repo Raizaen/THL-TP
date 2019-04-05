@@ -21,18 +21,38 @@ struct T_afd  { // automate
 /* création de l'AFD					       */
 /***************************************************************/
 
-/*** fonctions à écrire 
+/* fonctions à écrire */ 
 bool suffixe(std::string motif, int j, int k, char x)
 { // retourne true si motif[0..j-1] est suffixe de motif[0..k-1]x
+  std::string new_motif = "";
+  for(int l=0; l<k-1; l++) {
+    new_motif += motif[l];
+  }
+  new_motif += x;
+  
+  for(int i=0; i<j/*-1*/; i++) {
+    if (motif[i] != new_motif[k-j+i+1]) { //problème calcul new_motif
+      return 0;
+    }
+  }
+ return 1;
+}
 
+int min (int a, int b){
+  if(a < b) return a;
+  return b;
 }
 
 
 int delta(std::string motif, int k, char x)
 { // retourne l'état obtenu en partant de k et en lisant x
-
+  int j = min(k+1, motif.length());
+  
+  while (!suffixe(motif, j, k, x)) {
+    j--;
+  }
+  return j;
 }
-***/
 
 void creer_AFD(std::string motif, T_afd & autom)
 { // création d'un AFD pour sigma*motif
@@ -83,13 +103,13 @@ int indice_car(char c, std::string alpha)
 }
 
 
-/*** fonction à écrire
+/* fonction à écrire */
 int recherche_afd(int noligne, std::string texte, T_afd autom)
 { // on recherche toutes les occurrences du motif dans 'texte' grace à l'afd
   // retourne le nombre de "comparaisons" = longueur du texte
-
+  return 1;
 }
-***/
+
 
 
 /***************************************************************/
@@ -137,6 +157,7 @@ int main(int argc, char **argv)
 
 
 	std::cout << "Motif ? ";
+	//ababc
 	std::cin >>  motif;
 	nb_comp = recherche_afd_fichier(nom_fich, motif);
 	if (nb_comp >= 0 )
